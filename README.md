@@ -2,7 +2,7 @@
 Framework for the Cloudflight Coding Contest
 
 # To do
-- [ ] File IO
+- [x] File IO
 - [ ] Detect current level automatically
 - [ ] Implementations for common algorithms:
   - [ ] Dijkstra
