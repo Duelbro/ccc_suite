@@ -5,7 +5,7 @@ CXXFLAGS=-std=c++17
 test: main
 	./main
 
-main: src/main.cpp
+main: src/main.cpp src/ccc_suite.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o main src/main.cpp
 
 clean:
