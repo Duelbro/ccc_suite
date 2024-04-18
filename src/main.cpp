@@ -4,6 +4,7 @@
 #include <istream>
 #include <ostream>
 #include <string>
+
 using namespace std;
 
 void do_things(istream &in, ostream &out) {
@@ -25,20 +26,23 @@ bool compare_files(istream &inA, istream &inB) {
 }
 
 int main() {
-    string LVL_NUMBER = "1";
+    string level = "level9";
+    while (!filesystem::exists(level)) {
+        level[level.length() - 1]--;
+    }
     filesystem::path base_path;
-    base_path /= "level" + LVL_NUMBER + "/";
-    ifstream test_in{base_path.replace_filename("level" + LVL_NUMBER + "_example.in") };
+    base_path /= level + "/";
+    ifstream test_in{base_path.replace_filename(level + "_example.in") };
     cout << "Opened " << base_path << " for reading\n";
-    ofstream test_out{base_path.replace_filename("level" + LVL_NUMBER + "_test.out") };
+    ofstream test_out{base_path.replace_filename(level + "_test.out") };
     cout << "Opened " << base_path << " for writing\n";
 
     do_things(test_in, test_out);
 
     test_out.close();
-    ifstream test_result{base_path.replace_filename("level" + LVL_NUMBER + "_test.out") };
+    ifstream test_result{base_path.replace_filename(level + "_test.out") };
     cout << "Opened " << base_path << " for reading\n";
-    ifstream example_result{base_path.replace_filename("level" + LVL_NUMBER + "_example.out") };
+    ifstream example_result{base_path.replace_filename(level + "_example.out") };
     cout << "Opened " << base_path << " for reading\n";
     if (compare_files(test_result, example_result)) {
         cout << "Test successful\n";
@@ -48,7 +52,7 @@ int main() {
 
     for (const auto &file : filesystem::directory_iterator{base_path.remove_filename()}) {
         filesystem::path filepath = file.path();
-        if ((filepath.extension() == ".in") && (filepath.stem() != "level" + LVL_NUMBER + "_example")) {
+        if ((filepath.extension() == ".in") && (filepath.stem() != level + "_example")) {
             ifstream in{filepath};
             cout << "Opened " << filepath << " for reading\n";
             ofstream out{filepath.replace_extension("out")};
