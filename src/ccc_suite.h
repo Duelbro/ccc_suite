@@ -18,7 +18,7 @@ bool compare_files(istream &inA, istream &inB) {
             return false;
         }
     }
-    return (!inA.eof() || !inB.eof());
+    return (inA.eof() && inB.eof());
 }
 
 int main() {
