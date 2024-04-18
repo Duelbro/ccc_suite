@@ -6,10 +6,7 @@
 #include <string>
 using namespace std;
 
-void do_things(istream &in, ostream &out) {
-    printf("new file\n");
-    out << in.rdbuf();
-}
+void do_things(istream &in, ostream &out);
 
 bool compare_files(istream &inA, istream &inB) {
     string a;
