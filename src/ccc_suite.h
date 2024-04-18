@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-void do_things(istream &in, ostream &out);
+void solution(istream &in, ostream &out);
 
 bool compare_files(istream &inA, istream &inB) {
     string a;
@@ -30,7 +30,7 @@ int main() {
     ofstream test_out{base_path.replace_filename("level" + LVL_NUMBER + "_test.out") };
     cout << "Opened " << base_path << " for writing\n";
 
-    do_things(test_in, test_out);
+    solution(test_in, test_out);
 
     test_out.close();
     ifstream test_result{base_path.replace_filename("level" + LVL_NUMBER + "_test.out") };
@@ -50,7 +50,7 @@ int main() {
             cout << "Opened " << filepath << " for reading\n";
             ofstream out{filepath.replace_extension("out")};
             cout << "Opened " << filepath << " for writing\n";
-            do_things(in, out);
+            solution(in, out);
         }
     }
 }
