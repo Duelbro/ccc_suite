@@ -5,8 +5,8 @@ CXXFLAGS=-std=c++17
 test: main
 	./main
 
-main: main.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o main main.cpp 
+main: src/main.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o main src/main.cpp
 
 clean:
 	rm -f main.o main
