@@ -25,6 +25,9 @@ int main() {
     string level = "level9";
     while (!filesystem::exists(level)) {
         level[level.length() - 1]--;
+        if (level == "level0") {
+            return 1;
+        }
     }
     filesystem::path base_path;
     base_path /= level + "/";
