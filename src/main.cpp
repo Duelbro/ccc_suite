@@ -33,6 +33,50 @@ void print_lawn(int x, int y, int width, int height, char *lawn) {
     printf("\n");
 }
 
+bool validate(string path, int width, int height, char **lawn) {
+    int x = 0, y = 0;
+    int minx = 0, maxx = 0, miny = 0, maxy = 0;
+    if (path.length() != width * height - 1) {
+        return false;
+    }
+
+    for (char c : path) {
+        move_mower(x, y, c);
+        minx = min(x, minx);
+        maxx = max(x, maxx);
+        miny = min(y, miny);
+        maxy = max(y, maxy);
+    }
+    if (width != maxx - minx + 1 || height != maxy - miny + 1) {
+        return false;
+    }
+    x = -minx;
+    y = -miny;
+
+    if (x < 0 || x >= width || y < 0 || y >= height || lawn[y][x] != '.') {
+        return false;
+    }
+
+    lawn[y][x] = '*';
+    int visited = 1;
+    for (char c : path) {
+        if (c != 'W' && c != 'D' && c != 'S' && c != 'A') {
+            break;
+        }
+        move_mower(x, y, c);
+        if (x < 0 || x >= width || y < 0 || y >= height || lawn[y][x] != '.') {
+            break;
+        }
+        lawn[y][x] = '*';
+        visited++;
+    }
+    if (visited == width * height - 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void solution(istream &in, ostream &out) {
     string s;
     getline(in, s);
@@ -48,52 +92,18 @@ void solution(istream &in, ostream &out) {
                 lawn[y][x] = s[x];
             }
         }
+        string turn = "A";
+        string after = "";
+        if (width % 2 == 0) {
+            string before(width - 1, 'D');
+            for (int i = 0; i < width/2; i++) {
+                before.append(height - 1, 'S');
+                before.append(1,'A');
+                before.append(height - 1, 'W');
+                before.append(1,'A');
+            }
+        }
         getline(in, s);
-        if (s.length() != width * height - 1) {
-            out << "INVALID\n";
-            cout << "path too short\n";
-            continue;
-        }
-
-        int minx = 0, maxx = 0, miny = 0, maxy = 0;
-
-        for (char c : s) {
-            move_mower(x, y, c);
-            minx = min(x, minx);
-            maxx = max(x, maxx);
-            miny = min(y, miny);
-            maxy = max(y, maxy);
-        }
-        if(width != maxx-minx+1 || height != maxy-miny+1) {
-            out << "INVALID\n";
-            continue;
-        }
-        x = -minx;
-        y = -miny;
-
-        if (x < 0 || x >= width || y < 0 || y >= height || lawn[y][x] != '.') {
-            out << "INVALID\n";
-            continue;
-        }
-
-        lawn[y][x] = '*';
-        int visited = 1;
-        for (char c : s) {
-            if (c != 'W' && c != 'D' && c != 'S' && c != 'A') {
-                break;
-            }
-            move_mower(x, y, c);
-            if (x < 0 || x >= width || y < 0 || y >= height ||
-                lawn[y][x] != '.') {
-                break;
-            }
-            lawn[y][x] = '*';
-            visited++;
-        }
-        if (visited == width * height - 1) {
-            out << "VALID\n";
-        } else {
-            out << "INVALID\n";
-        }
+        validate(s, width, height, lawn);
     }
 }
