@@ -24,12 +24,16 @@ vector<vector<int>> make_map(int n_full, int m_full, int desk_count) {
         }
     }
 
+    if (desk_count <= 0) {
+        return map;
+    }
+
     int n_nice = n_full - (n_full % 3);
     for (int i = 0; i < n_nice; i += 3) {
         for (int j = m_nice; j < m_full; j++) {
             map[i][j] = ++id;
-            map[i][j + 1] = id;
-            map[i][j + 2] = id;
+            map[i + 1][j] = id;
+            map[i + 2][j] = id;
             desk_count--;
 
             if (desk_count <= 0) {
@@ -61,6 +65,11 @@ void solution(istream &in, ostream &out) {
         in >> x;
         in >> y;
         in >> dc;
+
+        if (in.eof()) {
+            break;
+        }
+        
         print_map(make_map(y, x, dc), y, x, out);
     }
 }
